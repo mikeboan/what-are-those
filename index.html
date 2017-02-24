@@ -62,11 +62,13 @@
       switch(e.currentTarget.id) {
         case "select1":
           audio = document.querySelector('#audio1');
+          prevAudio = document.querySelector('#audio2');
           one.className = 'selected'
           two.className = 'unselected'
           break;
         case "select2":
           audio = document.querySelector('#audio2');
+          prevAudio = document.querySelector('#audio1');
           one.className = 'unselected'
           two.className = 'selected'
           break;
