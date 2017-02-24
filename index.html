@@ -17,22 +17,66 @@
         cursor: pointer;
       }
 
+      div {
+        cursor: pointer;
+      }
+
+      .selected:after {
+        content: '✓';
+      }
     </style>
   </head>
   <body>
-    <audio src='./assets/audio/what_are_those.mp3'></audio>
+    <audio id='audio1' src='./assets/audio/what_are_those.mp3'></audio>
+    <audio id='audio2' src='./assets/audio/flute.mp3'></audio>
+
     <div id='play-button'></div>
+    <div id='select1' class='selected'>
+      Jurassic Park
+    </div>
+    <div id='select2' class='not-selected'>
+      20th Century Fox
+    </div>
   </body>
+
   <script type="text/javascript">
-    const playButton = document.querySelector('#play-button');
-    const audio = document.querySelector('audio');
+    var playButton = document.querySelector('#play-button');
+    var audio = document.querySelector('#audio1');
+    var prevAudio = document.querySelector('#audio2');
+    var one = document.querySelector('#select1');
+    var two = document.querySelector('#select2');
+
+    var options = [one, two];
 
     function handleClick(e) {
       e.preventDefault();
+      prevAudio.pause();
+      prevAudio.currentTime = 0;
       audio.pause();
       audio.currentTime = 0;
       audio.play();
     }
+
+    function handleSelect(e) {
+      e.preventDefault;
+      switch(e.currentTarget.id) {
+        case "select1":
+          audio = document.querySelector('#audio1');
+          one.className = 'selected'
+          two.className = 'unselected'
+          break;
+        case "select2":
+          audio = document.querySelector('#audio2');
+          one.className = 'unselected'
+          two.className = 'selected'
+          break;
+        default:
+          console.log("something happened");
+      }
+    }
+
+    one.addEventListener('click', handleSelect);
+    two.addEventListener('click', handleSelect);
 
     playButton.addEventListener('click', handleClick);
   </script>
