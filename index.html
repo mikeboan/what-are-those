@@ -4,18 +4,14 @@
     <meta charset="utf-8">
     <title>What are those?!</title>
     <style>
-      body {
-        display: flex;
-        align-items: center;
-      }
-
-      audio {
-        display: none;
-      }
+      body { display: flex; }
+      audio { display: none; }
 
       .playlist {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        width: 528px;
       }
 
       #play-button {
@@ -26,6 +22,21 @@
       	border-bottom: 50px solid transparent;
         cursor: pointer;
         margin: 5px;
+        margin-top: 15px;
+        position: relative;
+      }
+
+      #play-btn-border {
+        width: 0;
+      	height: 0;
+      	border-top: 52px solid transparent;
+      	border-left: 104px solid black;
+      	border-bottom: 52px solid transparent;
+        cursor: pointer;
+        z-index: -1;
+        top: -52px;
+        left: -102px;
+        position: absolute;
       }
 
       div {
@@ -39,43 +50,40 @@
         padding: 5px 8px;
         margin: 5px;
         transition: padding 0.3s;
-        transition: margin 0.3s;
         width: 500px;
       }
 
-      .selected {
-        padding: 9px 12px;
-        margin: 1px;
-      }
-
-      .selected:after {
-        content: '✓';
-      }
-
-
+      .selected { padding: 9px 12px; }
+      .selected:after { content: '✓'; }
     </style>
   </head>
   <body>
-    <audio id='audio1' src='./assets/audio/what_are_those.mp3'></audio>
-    <audio id='audio2' src='./assets/audio/flute.mp3'></audio>
+    <audio id='track1' src='./assets/audio/what_are_those.mp3'></audio>
+    <audio id='track2' src='./assets/audio/flute.mp3'></audio>
+    <audio id='track3' src='./assets/audio/mnms.mp3'></audio>
 
-    <div id='play-button'></div>
+    <div id='play-button'>
+      <div id='play-btn-border'></div>
+    </div>
     <section class='playlist'>
-      <div id='select1' class='selection selected'>
+      <div id='1' class='selection selected'>
         Jurassic Park
       </div>
-      <div id='select2' class='selection not-selected'>
+      <div id='2' class='selection not-selected'>
         20th Century Fox
+      </div>
+      </div>
+      <div id='3' class='selection not-selected'>
+        m&m's
       </div>
     </section>
   </body>
 
   <script type="text/javascript">
-    var playButton = document.querySelector('#play-button');
-    var audio = document.querySelector('#audio1');
-    var prevAudio = document.querySelector('#audio2');
-    var one = document.querySelector('#select1');
-    var two = document.querySelector('#select2');
+    const playButton = document.querySelector('#play-button');
+    let audio = document.querySelector('#track1');
+    let prevAudio = document.querySelector('#track2');
+    const selections = document.querySelectorAll('.selection');
 
     function handleClick(e) {
       e.preventDefault();
@@ -86,28 +94,24 @@
       audio.play();
     }
 
-    function handleSelect(e) {
-      e.preventDefault;
-      switch(e.currentTarget.id) {
-        case "select1":
-          prevAudio = audio;
-          audio = document.querySelector('#audio1');
-          one.className = 'selection selected'
-          two.className = 'selection not-selected'
-          break;
-        case "select2":
-          prevAudio = audio;
-          audio = document.querySelector('#audio2');
-          one.className = 'selection unselected'
-          two.className = 'selection selected'
-          break;
-        default:
-          console.log("something happened");
-      }
+    function toggleClasses(el) {
+      selections.forEach( selection => {
+        selection.className = selection.id === el.id
+          ? 'selection selected'
+          : 'selection not-selected'
+      });
     }
 
-    one.addEventListener('click', handleSelect);
-    two.addEventListener('click', handleSelect);
+    function handleSelect(e) {
+      e.preventDefault;
+      prevAudio = audio;
+      audio = document.querySelector('#track' + e.currentTarget.id);
+      toggleClasses(e.currentTarget);
+    }
+
+    selections.forEach( selection => {
+      selection.addEventListener('click', handleSelect)
+    });
 
     playButton.addEventListener('click', handleClick);
   </script>
