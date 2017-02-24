@@ -4,8 +4,18 @@
     <meta charset="utf-8">
     <title>What are those?!</title>
     <style>
+      body {
+        display: flex;
+        align-items: center;
+      }
+
       audio {
         display: none;
+      }
+
+      .playlist {
+        display: flex;
+        flex-direction: column;
       }
 
       #play-button {
@@ -15,15 +25,34 @@
       	border-left: 100px solid red;
       	border-bottom: 50px solid transparent;
         cursor: pointer;
+        margin: 5px;
       }
 
       div {
+        display: inline-block;
         cursor: pointer;
+      }
+
+      .selection {
+        background: red;
+        border: 1px solid black;
+        padding: 5px 8px;
+        margin: 5px;
+        transition: padding 0.3s;
+        transition: margin 0.3s;
+        width: 500px;
+      }
+
+      .selected {
+        padding: 9px 12px;
+        margin: 1px;
       }
 
       .selected:after {
         content: '✓';
       }
+
+
     </style>
   </head>
   <body>
@@ -31,12 +60,14 @@
     <audio id='audio2' src='./assets/audio/flute.mp3'></audio>
 
     <div id='play-button'></div>
-    <div id='select1' class='selected'>
-      Jurassic Park
-    </div>
-    <div id='select2' class='not-selected'>
-      20th Century Fox
-    </div>
+    <section class='playlist'>
+      <div id='select1' class='selection selected'>
+        Jurassic Park
+      </div>
+      <div id='select2' class='selection not-selected'>
+        20th Century Fox
+      </div>
+    </section>
   </body>
 
   <script type="text/javascript">
@@ -45,8 +76,6 @@
     var prevAudio = document.querySelector('#audio2');
     var one = document.querySelector('#select1');
     var two = document.querySelector('#select2');
-
-    var options = [one, two];
 
     function handleClick(e) {
       e.preventDefault();
@@ -61,16 +90,16 @@
       e.preventDefault;
       switch(e.currentTarget.id) {
         case "select1":
+          prevAudio = audio;
           audio = document.querySelector('#audio1');
-          prevAudio = document.querySelector('#audio2');
-          one.className = 'selected'
-          two.className = 'unselected'
+          one.className = 'selection selected'
+          two.className = 'selection not-selected'
           break;
         case "select2":
+          prevAudio = audio;
           audio = document.querySelector('#audio2');
-          prevAudio = document.querySelector('#audio1');
-          one.className = 'unselected'
-          two.className = 'selected'
+          one.className = 'selection unselected'
+          two.className = 'selection selected'
           break;
         default:
           console.log("something happened");
