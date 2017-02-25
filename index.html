@@ -58,22 +58,29 @@
     </style>
   </head>
   <body>
-    <audio id='track1' src='./assets/audio/what_are_those.mp3'></audio>
-    <audio id='track2' src='./assets/audio/flute.mp3'></audio>
-    <audio id='track3' src='./assets/audio/mnms.mp3'></audio>
+    <audio src='./assets/audio/what_are_those.mp3'></audio>
 
     <div id='play-button'>
       <div id='play-btn-border'></div>
     </div>
     <section class='playlist'>
-      <div id='1' class='selection selected'>
+      <div id='1'
+        class='selection selected'
+        data-src='./assets/audio/what_are_those.mp3'
+      >
         Jurassic Park
       </div>
-      <div id='2' class='selection not-selected'>
+      <div id='2'
+        class='selection not-selected'
+        data-src='./assets/audio/flute.mp3'
+      >
         20th Century Fox
       </div>
       </div>
-      <div id='3' class='selection not-selected'>
+      <div id='3'
+        class='selection not-selected'
+        data-src='./assets/audio/mnms.mp3'
+      >
         m&m's
       </div>
     </section>
@@ -81,16 +88,15 @@
 
   <script type="text/javascript">
     const playButton = document.querySelector('#play-button');
-    let audio = document.querySelector('#track1');
-    let prevAudio = document.querySelector('#track2');
+    var nextSrc = './assets/audio/what_are_those.mp3';
+    const audio = document.querySelector('audio');
     const selections = document.querySelectorAll('.selection');
 
     function handleClick(e) {
       e.preventDefault();
-      prevAudio.pause();
-      prevAudio.currentTime = 0;
       audio.pause();
       audio.currentTime = 0;
+      audio.setAttribute('src', nextSrc);
       audio.play();
     }
 
@@ -104,8 +110,7 @@
 
     function handleSelect(e) {
       e.preventDefault;
-      prevAudio = audio;
-      audio = document.querySelector('#track' + e.currentTarget.id);
+      nextSrc = e.currentTarget.dataset.src
       toggleClasses(e.currentTarget);
     }
 
